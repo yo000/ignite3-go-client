@@ -71,7 +71,7 @@ Connect to server :
 	ctx := context.Background()
 
 	var db *sql.DB
-	if db, err = sql.Open("ignite", "tcp://127.0.0.1:10800/SQL_PUBLIC_ARTIST?version=3.0.0&tls=yes&tls-insecure-skip-verify=yes&page-size=10000&timeout=5000"); err != nil {
+	if db, err = sql.Open("ignite3", "tcp://127.0.0.1:10800/SQL_PUBLIC_ARTIST?version=3.0.0&tls=yes&tls-insecure-skip-verify=yes&page-size=10000&timeout=5000"); err != nil {
 		fmt.Printf("failed to open connection: %v", err)
 		return
 	}

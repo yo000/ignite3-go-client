@@ -19,27 +19,6 @@ type ConnInfo struct {
 	// Query cursor page size.
 	PageSize int
 
-	// Max rows.
-	MaxRows int
-
 	// Timeout(milliseconds) value should be non-negative. Zero value disables timeout.
 	Timeout int64
-
-	// Distributed joins.
-	DistributedJoins bool
-
-	// Local query.
-	LocalQuery bool
-
-	// Replicated only - Whether query contains only replicated tables or not.
-	ReplicatedOnly bool
-
-	// Enforce join order.
-	EnforceJoinOrder bool
-
-	// Collocated - Whether your data is co-located or not.
-	Collocated bool
-
-	// Lazy query execution.
-	LazyQuery bool
 }

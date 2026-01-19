@@ -50,20 +50,13 @@ func (d *Driver) Open(name string) (driver.Conn, error) {
 // | Name                     | Mandatory | Description                                                                     | Default value                     |
 // |--------------------------|-----------|---------------------------------------------------------------------------------|-----------------------------------|
 // | schema                   | no        | Database schema                                                                 | "" (PUBLIC schema will be used)   |
-// | version                  | no        | Binary protocol version in Semantic Version format                              | 1.0.0                             |
+// | version                  | no        | Binary protocol version in Semantic Version format                              | 3.0.0                             |
 // | username                 | no        | Username                                                                        | no                                |
 // | password                 | no        | Password                                                                        | no                                |
 // | tls                      | no        | Connect using TLS                                                               | no                                |
 // | tls-insecure-skip-verify | no        | Controls whether a client verifies the server's certificate chain and host name | no                                |
 // | page-size                | no        | Query cursor page size                                                          | 10000                             |
-// | max-rows                 | no        | Max rows to return by query                                                     | 0 (looks like it means unlimited) |
 // | timeout                  | no        | Timeout in milliseconds to execute query                                        | 0 (disable timeout)               |
-// | distributed-joins        | no        | Distributed joins (yes/no)                                                      | no                                |
-// | local-query              | no        | Local query (yes/no)                                                            | no                                |
-// | replicated-only          | no        | Whether query contains only replicated tables or not (yes/no)                   | no                                |
-// | enforce-join-order       | no        | Enforce join order (yes/no)                                                     | no                                |
-// | collocated               | no        | Whether your data is co-located or not (yes/no)                                 | no                                |
-// | lazy-query               | no        | Lazy query execution (yes/no)                                                   | no                                |
 //
 // url example: tcp://127.0.0.1:10800/?version=v1.0.0&page-size=100000
 func (d *Driver) parseURL(name string) (common.ConnInfo, error) {
@@ -89,7 +82,7 @@ func (d *Driver) parseURL(name string) (common.ConnInfo, error) {
 	ci.Cache = strings.Trim(u.Path, "/")
 
 	// default values
-	ver, _ := semver.NewVersion("1.0.0")
+	ver, _ := semver.NewVersion("3.0.0")
 	ci.PageSize = 10000
 
 	var tlsEnabled, tlsInsecureSkipVerify bool
@@ -118,26 +111,10 @@ func (d *Driver) parseURL(name string) (common.ConnInfo, error) {
 			if len(val) > 0 {
 				ci.PageSize, err = strconv.Atoi(val)
 			}
-		case "max-rows":
-			if len(val) > 0 {
-				ci.MaxRows, err = strconv.Atoi(val)
-			}
 		case "timeout":
 			if len(val) > 0 {
 				ci.Timeout, err = strconv.ParseInt(val, 0, 64)
 			}
-		case "distributed-joins":
-			ci.DistributedJoins, err = d.parseYesNo(val)
-		case "local-query":
-			ci.LocalQuery, err = d.parseYesNo(val)
-		case "replicated-only":
-			ci.ReplicatedOnly, err = d.parseYesNo(val)
-		case "enforce-join-order":
-			ci.EnforceJoinOrder, err = d.parseYesNo(val)
-		case "collocated":
-			ci.Collocated, err = d.parseYesNo(val)
-		case "lazy-query":
-			ci.LazyQuery, err = d.parseYesNo(val)
 		default:
 			return ci, errors.Errorf("unknown connection parameter \"%s\" with value \"%v\"", k, v)
 		}
@@ -176,5 +153,5 @@ func (d *Driver) parseYesNo(s string) (bool, error) {
 
 // Init Initializes driver
 func init() {
-	sql.Register("ignite", &Driver{})
+	sql.Register("ignite3", &Driver{})
 }

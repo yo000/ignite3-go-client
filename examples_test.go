@@ -52,7 +52,7 @@ func Test_SQL_Driver(t *testing.T) {
 	ctx := context.Background()
 
 	// open connection
-	db, err := sql.Open("ignite", "tcp://localhost:10800/Track?"+
+	db, err := sql.Open("ignite3", "tcp://localhost:10800/Track?"+
 		"version=3.0.0"+
 		// Credentials are only needed if they're configured in your Ignite server.
 		"&username=ignite"+
